@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 25
@@ -30,3 +32,116 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.2.0'
     testCompile 'junit:junit:4.12'
 }
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+group = 'com.github.gryzor'
+version = '1.0.0'
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name 'SwipeNoLib'
+            description 'A very simple implementation of a RecyclerView ItemTouchHelper'
+            url 'https://github.com/Gryzor/SwipeNoLib'
+            inceptionYear '2017'
+
+            packaging 'aar'
+            groupId 'com.github.gryzor'
+            artifactId 'swipenolib'
+            version '1.0.0'
+
+            licenses {
+                license {
+                    name 'Apache-2.0'
+                    url 'https://opensource.org/licenses/Apache-2.0'
+                }
+            }
+            scm {
+                connection 'https://github.com/Gryzor/SwipeNoLib.git'
+                url 'https://github.com/Gryzor/SwipeNoLib'
+            }
+            developers {
+                developer {
+                    id = 'gryzor'
+                    name 'Martin'
+                }
+            }
+        }
+    }
+}
+
+Properties bintrayProperties = new Properties()
+bintrayProperties.load(project.rootProject.file('bintray.properties').newDataInputStream())
+
+bintray {
+    user = bintrayProperties.getProperty('user')
+    key = bintrayProperties.get('key')
+
+    configurations = ['archives']
+    pkg {
+        repo = 'SwipeNoLib'
+        name = 'SwipeNoLib'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/Gryzor/SwipeNoLib.git'
+        issueTrackerUrl = 'https://github.com/Gryzor/SwipeNoLib/issues'
+        websiteUrl = 'https://github.com/Gryzor/SwipeNoLib'
+                publish = true
+        version {
+            name = '1.0.0'
+            desc = 'SwipeNoLib 1.0.0'
+            released = new Date()
+            vcsTag = 'v1.0.0'
+            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+        }
+    }
+}
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'SwipeNoLib'
+
+    libraryGroupId = 'com.github.gryzor'
+    libraryArtifactId = 'swipenolib'
+    libraryVersion = '1.0.0'
+
+    libraryName = 'SwipeNoLib'
+    libraryDescription = 'A very simple implementation of a RecyclerView ItemTouchHelper'
+
+    siteUrl = 'https://github.com/Gryzor/SwipeNoLib'
+    gitUrl = 'https://github.com/Gryzor/SwipeNoLib.git'
+
+    developerId = 'gryzor'
+    developerName = 'Martin Marconcini'
+    developerEmail = 'marconcini@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+
+    failOnJavadocError = false
+}
+
+
+
+
+//apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/installv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/bintrayv1.gradle'

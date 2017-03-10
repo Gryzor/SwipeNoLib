@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 /**
- * A custom {@link android.support.v7.widget.RecyclerView.ItemDecoration} that plays alongside the implementation
+ * A custom {@link RecyclerView.ItemDecoration} that plays alongside the implementation
  * of {@link RecyclerViewItemSwipeHelper} to support swipe actions.
  */
 public class RecyclerViewSwipeHelperDecorator extends RecyclerView.ItemDecoration {
@@ -111,7 +111,7 @@ public class RecyclerViewSwipeHelperDecorator extends RecyclerView.ItemDecoratio
         /**
          * Convenience method to build and add a {@link RecyclerViewSwipeHelperDecorator} to a RecyclerView.
          * @param recyclerView A valid <b>non-null</b> instance of a RecyclerView to attach a decorator to.
-         * @return the built instance of the {@link android.support.v7.widget.RecyclerView.ItemDecoration}, already
+         * @return the built instance of the {@link RecyclerView.ItemDecoration}, already
          * added to the supplied RecyclerView.
          */
         public RecyclerView.ItemDecoration buildAndAdd(@NonNull final RecyclerView recyclerView) {
