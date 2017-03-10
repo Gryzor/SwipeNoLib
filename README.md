@@ -13,7 +13,12 @@ The former is the one that deals with the touch, drag and drawing of the backgro
 
 # How To Use?
 
-1. Add the Gradle dependency.
+1. Add the Gradle dependency:
+
+```
+compile 'com.github.gryzor:swipenolib:1.0.0'
+```
+
 2. Use the supplied Builder to construct an instance of the swipe helper like so:
 
 ```
