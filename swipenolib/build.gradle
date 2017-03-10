@@ -110,38 +110,31 @@ bintray {
             desc = 'SwipeNoLib 1.0.0'
             released = new Date()
             vcsTag = 'v1.0.0'
-            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
         }
     }
 }
 
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'SwipeNoLib'
-
-    libraryGroupId = 'com.github.gryzor'
-    libraryArtifactId = 'swipenolib'
-    libraryVersion = '1.0.0'
-
-    libraryName = 'SwipeNoLib'
-    libraryDescription = 'A very simple implementation of a RecyclerView ItemTouchHelper'
-
-    siteUrl = 'https://github.com/Gryzor/SwipeNoLib'
-    gitUrl = 'https://github.com/Gryzor/SwipeNoLib.git'
-
-    developerId = 'gryzor'
-    developerName = 'Martin Marconcini'
-    developerEmail = 'marconcini@gmail.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-
-    failOnJavadocError = false
-}
-
-
-
-
-//apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/installv1.gradle'
-//apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/bintrayv1.gradle'
+//ext {
+//    bintrayRepo = 'maven'
+//    bintrayName = 'SwipeNoLib'
+//
+//    libraryGroupId = 'com.github.gryzor'
+//    libraryArtifactId = 'swipenolib'
+//    libraryVersion = '1.0.0'
+//
+//    libraryName = 'SwipeNoLib'
+//    libraryDescription = 'A very simple implementation of a RecyclerView ItemTouchHelper'
+//
+//    siteUrl = 'https://github.com/Gryzor/SwipeNoLib'
+//    gitUrl = 'https://github.com/Gryzor/SwipeNoLib.git'
+//
+//    developerId = 'gryzor'
+//    developerName = 'Martin Marconcini'
+//    developerEmail = 'marconcini@gmail.com'
+//
+//    licenseName = 'The Apache Software License, Version 2.0'
+//    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//    allLicenses = ["Apache-2.0"]
+//
+//    failOnJavadocError = false
+//}

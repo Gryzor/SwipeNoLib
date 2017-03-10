@@ -1,7 +1,9 @@
 # SwipeNoLib
 A very simple implementation of a RecyclerView ItemTouchHelper. 
 
-Adding swipe to RecyclerView cells doesn’t need a lot of code, you don’t need a library, hence why this library exists… `¯\_(ツ)_/¯`
+[ ![Download](https://api.bintray.com/packages/gryzor/SwipeNoLib/SwipeNoLib/images/download.svg) ](https://bintray.com/gryzor/SwipeNoLib/SwipeNoLib/_latestVersion)
+
+Adding swipe to RecyclerView cells doesn't need a lot of code, you don't need a library, hence why this library exists… `¯\_(ツ)_/¯`
 
 ![SwipeNoLib](animation.gif)
 
