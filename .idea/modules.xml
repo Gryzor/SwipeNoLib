@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/SwipeNoLib.iml" filepath="$PROJECT_DIR$/SwipeNoLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/swipenolib/swipenolib.iml" filepath="$PROJECT_DIR$/swipenolib/swipenolib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/swipenolib-sample/swipenolib-sample.iml" filepath="$PROJECT_DIR$/swipenolib-sample/swipenolib-sample.iml" />
+    </modules>
+  </component>
+</project>
