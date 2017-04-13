@@ -16,7 +16,7 @@ The former is the one that deals with the touch, drag and drawing of the backgro
 1. Add the Gradle dependency:
 
 ```
-compile 'com.github.Gryzor:SwipeNoLib:v1.0.5'
+compile 'com.github.Gryzor:SwipeNoLib:v1.0.6'
 ```
 
 Remember this is a Jitpack.io artifact so you also need to add:

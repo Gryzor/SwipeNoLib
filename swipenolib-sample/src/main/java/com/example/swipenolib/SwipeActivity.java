@@ -43,7 +43,10 @@ public class SwipeActivity extends AppCompatActivity {
                     }
                 })
                 .swipeToStart()
-                .setDeleteImageColor(Color.WHITE)
+                .setDeleteDecorationColor(Color.WHITE)
+                .setDeleteImage(getResources().getDrawable(R.drawable.vg_clear_black_24dp))
+//                .setDeleteText("DELETE")
+//                .setDeleteTextSize(42)
                 .disableSwipeOnPositions(0, 3)
                 .disableSwipeOnLastItem()
                 .buildAndAttach(this, recyclerView);
