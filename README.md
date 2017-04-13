@@ -1,7 +1,7 @@
 # SwipeNoLib
 A very simple implementation of a RecyclerView ItemTouchHelper. 
 
-[ ![Download](https://api.bintray.com/packages/gryzor/SwipeNoLib/SwipeNoLib/images/download.svg) ](https://bintray.com/gryzor/SwipeNoLib/SwipeNoLib/_latestVersion)
+[![](https://jitpack.io/v/Gryzor/SwipeNoLib.svg)](https://jitpack.io/#Gryzor/SwipeNoLib)
 
 Adding swipe to RecyclerView cells doesn't need a lot of code, you don't need a library, hence why this library exists… `¯\_(ツ)_/¯`
 
@@ -16,8 +16,26 @@ The former is the one that deals with the touch, drag and drawing of the backgro
 1. Add the Gradle dependency:
 
 ```
-compile 'com.github.gryzor:swipenolib:1.0.0'
+compile 'com.github.Gryzor:SwipeNoLib:v1.0.5'
 ```
+
+Remember this is a Jitpack.io artifact so you also need to add:
+
+```
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+to your root build.gradle at the end of repositories.
+
+It's the one that usually says:
+
+> // Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 
 2. Use the supplied Builder to construct an instance of the swipe helper like so:
 

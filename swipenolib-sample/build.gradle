@@ -26,6 +26,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:recyclerview-v7:25.2.0'
-    compile 'com.github.gryzor:swipenolib:1.0.0'
+    compile 'com.github.Gryzor:SwipeNoLib:v1.0.5'
     testCompile 'junit:junit:4.12'
 }
