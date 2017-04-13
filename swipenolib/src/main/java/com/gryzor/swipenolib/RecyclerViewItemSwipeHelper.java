@@ -3,13 +3,16 @@ package com.gryzor.swipenolib;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -26,49 +29,66 @@ import java.util.Arrays;
 public final class RecyclerViewItemSwipeHelper extends ItemTouchHelper.SimpleCallback {
 
     private static final String TAG = RecyclerViewItemSwipeHelper.class.toString();
-    private final int[] disabledLocations;
     private Context context;
     private OnSwipeListener listener;
     private Drawable background;
     private Drawable deleteIcon;
-    private int deleteIconColor = Color.WHITE;
-    private int deleteIconMargin;
+    private int deleteDecorationMargin;
+    private int deleteTextSize;
     private boolean initiated;
+    private final int[] disabledLocations;
     private boolean disableSwipeOnLastPosition;
+    private TextPaint textPaint;
+    private Rect textRect;
+    private String deleteText;
 
     private RecyclerViewItemSwipeHelper(final Context context, final Builder builder) {
         super(0, builder.swipeDirs);
         this.context = context;
         this.background = builder.background;
-        this.deleteIcon = builder.deleteIcon;
-        this.deleteIconMargin = builder.deleteIconMargin;
+
+        if (builder.deleteIcon != null) {
+            this.deleteIcon = builder.deleteIcon;
+            deleteIcon.setColorFilter(builder.deleteDecorationColor, PorterDuff.Mode.SRC_ATOP);
+        }
+
+        this.deleteDecorationMargin = builder.deleteDecorationMargin;
         this.listener = builder.listener;
-        this.deleteIconColor = builder.deleteIconColor;
         this.disabledLocations = builder.disabledLocations;
         this.disableSwipeOnLastPosition = builder.disableSwipeOnLastPosition;
+
+        if (!TextUtils.isEmpty(builder.deleteText)) {
+            this.deleteTextSize = builder.deleteTextSize;
+            this.textRect = new Rect();
+            this.deleteText = builder.deleteText;
+            this.textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG | Paint.LINEAR_TEXT_FLAG);
+            this.textPaint.setStyle(Paint.Style.FILL);
+            this.textPaint.setTextAlign(Paint.Align.LEFT);
+            this.textPaint.setColor(builder.deleteDecorationColor);
+            this.textPaint.setTextSize(builder.deleteTextSize);
+        }
     }
 
     private void init() {
+
         // Ensure we have some defaults.
         if (context == null) {
             throw new NullPointerException("You need a valid non-null Context to use this class");
         }
 
         if (background == null) {
-            // Set a Default
-            Log.i(TAG, "Warning: you didn't pass a background color, using RED.");
             background = new ColorDrawable(Color.RED);
         }
 
-        if (deleteIcon == null) {
-            Log.i(TAG, "Warning: you didn't pass a delete icon, using R.drawable.vg_clear_black_24dp.");
-            deleteIcon = ContextCompat.getDrawable(context, R.drawable.vg_clear_black_24dp);
+        if (deleteDecorationMargin < 0) {
+            deleteDecorationMargin = (int) context.getResources().getDimension(R.dimen.swipe_cell_delete_image_margin);
         }
 
-        deleteIcon.setColorFilter(deleteIconColor, PorterDuff.Mode.SRC_ATOP);
-
-        if (deleteIconMargin < 0) {
-            deleteIconMargin = (int) context.getResources().getDimension(R.dimen.swipe_cell_delete_image_margin);
+        if (deleteTextSize <= 0) {
+            deleteTextSize = context.getResources().getDimensionPixelSize(R.dimen.swipe_cell_delete_text_size);
+            if (textPaint != null) {
+                textPaint.setTextSize(deleteTextSize);
+            }
         }
 
         if (listener == null) {
@@ -87,7 +107,7 @@ public final class RecyclerViewItemSwipeHelper extends ItemTouchHelper.SimpleCal
             final RecyclerView recyclerView,
             final RecyclerView.ViewHolder viewHolder,
             final RecyclerView.ViewHolder target) {
-        // This would be useful for Drag and Drop, which we don't need/support.
+        // This would be useful for Drag and Drop, which I didn't implement/support.
         return false;
     }
 
@@ -143,17 +163,25 @@ public final class RecyclerViewItemSwipeHelper extends ItemTouchHelper.SimpleCal
 
         background.draw(canvas);
 
-        // Draw Icon (X)
-        int itemHeight = itemView.getBottom() - itemView.getTop();
-        int intrinsicWidth = deleteIcon.getIntrinsicWidth();
-        int intrinsicHeight = deleteIcon.getIntrinsicWidth();
+        // Draw Icon or Text
+        if (deleteIcon != null) {
+            int itemHeight = itemView.getBottom() - itemView.getTop();
+            int intrinsicWidth = deleteIcon.getIntrinsicWidth();
+            int intrinsicHeight = deleteIcon.getIntrinsicWidth();
 
-        int iconLeft = itemView.getRight() - deleteIconMargin - intrinsicWidth;
-        int iconRight = itemView.getRight() - deleteIconMargin;
-        int iconTop = itemView.getTop() + (itemHeight - intrinsicHeight) / 2;
-        int iconBottom = iconTop + intrinsicHeight;
-        deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
-        deleteIcon.draw(canvas);
+            int iconLeft = itemView.getRight() - deleteDecorationMargin - intrinsicWidth;
+            int iconRight = itemView.getRight() - deleteDecorationMargin;
+            int iconTop = itemView.getTop() + (itemHeight - intrinsicHeight) / 2;
+            int iconBottom = iconTop + intrinsicHeight;
+            deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+            deleteIcon.draw(canvas);
+        } else if (!TextUtils.isEmpty(deleteText)) {
+            int itemHeight = itemView.getBottom() - itemView.getTop();
+            textPaint.getTextBounds(deleteText, 0, deleteText.length(), textRect);
+            float textX = itemView.getRight() - deleteDecorationMargin - textRect.width();
+            float textY = itemView.getTop() + (itemHeight / 2f) + textRect.height() / 2f + textRect.bottom;
+            canvas.drawText(deleteText, textX, textY, textPaint);
+        }
 
         super.onChildDraw(canvas, recyclerView, viewHolder, deltaX, deltaY, actionState, isCurrentlyActive);
     }
@@ -172,87 +200,64 @@ public final class RecyclerViewItemSwipeHelper extends ItemTouchHelper.SimpleCal
         private int swipeDirs;
         private Drawable background;
         private Drawable deleteIcon;
-        private int deleteIconColor;
-        private int deleteIconMargin = -1;
+        private String deleteText = null;
+        private int deleteDecorationColor = Color.WHITE;
+        private int deleteTextSize = -1;
+        private int deleteDecorationMargin = -1;
         private OnSwipeListener listener;
         private int[] disabledLocations;
         private boolean disableSwipeOnLastPosition;
 
-        /**
-         * Enable Swipe from Start (Left in Left-To-Right languages).
-         */
         public Builder swipeToStart() {
             swipeDirs |= ItemTouchHelper.START;
             return this;
         }
 
-        /**
-         * Enable Swipe from End (Right in Left-To-Right languages).
-         */
         public Builder swipeToEnd() {
             swipeDirs |= ItemTouchHelper.END;
             return this;
         }
 
-        /**
-         * The Drawable used behind the Swipe.
-         * @param drawable a valid, non-null drawable.
-         */
         public Builder setBackgroundColor(Drawable drawable) {
             this.background = drawable;
             return this;
         }
 
-        /**
-         * The Drawable that will be shown behind the swipe (on the end/right side only).
-         * @param drawable a valid, non-null drawable.
-         */
         public Builder setDeleteImage(Drawable drawable) {
             this.deleteIcon = drawable;
             return this;
         }
 
-        /**
-         * Adds a Margin to the delete image, defaults to 16dp.
-         * @param dp a valid margin in dp.
-         */
-        public Builder setDeleteImageMargin(int dp) {
-            this.deleteIconMargin = dp;
+        public Builder setDeleteText(String text) {
+            this.deleteText = text;
             return this;
         }
 
-        /**
-         * The drawable displayed as delete image will be painted with this color via {@code setColorFilter()}.
-         * @param color a valid color.
-         */
-        public Builder setDeleteImageColor(int color) {
-            this.deleteIconColor = color;
+        public Builder setDeleteEndMargin(int dp) {
+            this.deleteDecorationMargin = dp;
             return this;
         }
 
-        /**
-         * If you want to disable certain positions (like the first one), pass them here.
-         * This is mostly useful to disable position 0 (initial) and/or any other hardcoded headers.
-         * @param positions The positions you want to ignore swipes.
-         */
+        public Builder setDeleteTextSize(int sp) {
+            this.deleteTextSize = sp;
+            return this;
+        }
+
+        public Builder setDeleteDecorationColor(int color) {
+            this.deleteDecorationColor = color;
+            return this;
+        }
+
         public Builder disableSwipeOnPositions(int... positions) {
             disabledLocations = positions;
             return this;
         }
 
-        /**
-         * Since the last item is usually dynamic, you can disable swipe on the last item and the touch helper will
-         * keep track of it.
-         */
         public Builder disableSwipeOnLastItem() {
             disableSwipeOnLastPosition = true;
             return this;
         }
 
-        /**
-         * If you want to be notified when a Swipe happens, pass a listener here.
-         * @param listener a valid listener. If null, no listener will be notified.
-         */
         public Builder setSwipeListener(OnSwipeListener listener) {
             this.listener = listener;
             return this;
@@ -282,3 +287,4 @@ public final class RecyclerViewItemSwipeHelper extends ItemTouchHelper.SimpleCal
         }
     }
 }
+
