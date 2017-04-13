@@ -25,9 +25,9 @@ public class SwipeActivity extends AppCompatActivity {
 
         final List<String> strings = new ArrayList<>(
                 Arrays.asList(
-                        "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven",
+                        "One (Swipe Disabled)", "Two", "Three", "Four (Swipe Disabled)", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven",
                         "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen",
-                        "Twenty"
+                        "Twenty (Swipe Disabled)"
                 )
         );
 
@@ -44,7 +44,7 @@ public class SwipeActivity extends AppCompatActivity {
                 })
                 .swipeToStart()
                 .setDeleteImageColor(Color.WHITE)
-                .disableSwipeOnPositions(0)
+                .disableSwipeOnPositions(0, 3)
                 .disableSwipeOnLastItem()
                 .buildAndAttach(this, recyclerView);
 

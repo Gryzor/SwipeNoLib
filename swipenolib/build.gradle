@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.2"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -54,7 +54,7 @@ artifacts {
 }
 
 group = 'com.github.gryzor'
-version = '1.0.0'
+version = '1.0.2'
 
 install {
     repositories.mavenInstaller {
@@ -67,7 +67,7 @@ install {
             packaging 'aar'
             groupId 'com.github.gryzor'
             artifactId 'swipenolib'
-            version '1.0.0'
+            version '1.0.2'
 
             licenses {
                 license {
@@ -107,34 +107,9 @@ bintray {
                 publish = true
         version {
             name = '1.0.0'
-            desc = 'SwipeNoLib 1.0.0'
+            desc = 'SwipeNoLib 1.0.2'
             released = new Date()
-            vcsTag = 'v1.0.0'
+            vcsTag = 'v1.0.2'
         }
     }
 }
-
-//ext {
-//    bintrayRepo = 'maven'
-//    bintrayName = 'SwipeNoLib'
-//
-//    libraryGroupId = 'com.github.gryzor'
-//    libraryArtifactId = 'swipenolib'
-//    libraryVersion = '1.0.0'
-//
-//    libraryName = 'SwipeNoLib'
-//    libraryDescription = 'A very simple implementation of a RecyclerView ItemTouchHelper'
-//
-//    siteUrl = 'https://github.com/Gryzor/SwipeNoLib'
-//    gitUrl = 'https://github.com/Gryzor/SwipeNoLib.git'
-//
-//    developerId = 'gryzor'
-//    developerName = 'Martin Marconcini'
-//    developerEmail = 'marconcini@gmail.com'
-//
-//    licenseName = 'The Apache Software License, Version 2.0'
-//    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//    allLicenses = ["Apache-2.0"]
-//
-//    failOnJavadocError = false
-//}
