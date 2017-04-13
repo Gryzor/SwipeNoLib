@@ -104,7 +104,8 @@ public final class RecyclerViewItemSwipeHelper extends ItemTouchHelper.SimpleCal
         int currPos = viewHolder.getAdapterPosition();
         int lastPos = recyclerView.getAdapter().getItemCount() - 1;
 
-        if (Arrays.binarySearch(disabledLocations, currPos) >= 0
+        if (disabledLocations != null
+                && Arrays.binarySearch(disabledLocations, currPos) >= 0
                 || (currPos == lastPos && disableSwipeOnLastPosition)) {
             return 0;
         }
