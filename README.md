@@ -49,14 +49,28 @@ It's the one that usually says:
                     }
                 })
                 .swipeToStart()
-                .setDeleteImageColor(Color.WHITE)
-                .disableSwipeOnPositions(0)
+                .setDeleteDecorationColor(Color.WHITE)
+                .setDeleteImage(getDrawable(R.drawable.vg_clear_black_24dp))
+                .disableSwipeOnPositions(0, 3)
                 .disableSwipeOnLastItem()
                 .buildAndAttach(this, recyclerView);
 ```
 
-Additionally you can build and attach later by using:
+If you want to display text instead of an icon, you can use:
 
+
+```
+                .swipeToStart()
+                .setDeleteDecorationColor(Color.WHITE)
+                .setDeleteText("DELETE")
+                .setDeleteTextSize(42)
+                .disableSwipeOnPositions(0, 3)
+                .disableSwipeOnLastItem()
+                .buildAndAttach(this, recyclerView);
+```
+Notice how you have to remove `setDeleteImage`. The Decoration Color also affects the text.
+
+Additionally you can build and attach later by using:
 ```
 ItemTouchHelper helper = new RecyclerViewItemSwipeHelper.Builder()
 						...
